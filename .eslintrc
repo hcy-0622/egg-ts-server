@@ -1,0 +1,10 @@
+{
+  "extends": "eslint-config-egg/typescript",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    // 允许通过require导入模块
+    "@typescript-eslint/no-var-requires": 0
+  }
+}
