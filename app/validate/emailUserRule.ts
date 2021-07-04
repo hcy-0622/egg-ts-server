@@ -23,4 +23,4 @@ export default {
     type: 'enum',
     values: [ 'normal', 'email', 'phone' ],
   },
-}
+};

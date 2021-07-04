@@ -23,8 +23,8 @@ export default () => {
   config.smtp = {
     host: 'smtp.qq.com',
     port: 465,
-    user: '371447281@qq.com',
-    pass: 'ahadh',
+    user: '945739185@qq.com',
+    pass: 'arhuduslnnthbcch',
   };
   // 禁用CSRF安全校验
   config.security = {

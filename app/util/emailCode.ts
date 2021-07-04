@@ -6,7 +6,7 @@ export default {
   // 创建发送邮件对象
   createTransporterInstance(ctx) {
     if (transporter) return transporter;
-    const { host, port, user, pass } = ctx.app.config.smtp;
+    const {host, port, user, pass} = ctx.app.config.smtp;
     transporter = nodemailer.createTransport({
       host,
       port,
@@ -25,9 +25,9 @@ export default {
       .slice(2, 6)
       .toUpperCase();
     const info = {
-      from: '371447281@qq.com',
+      from: '945739185@qq.com',
       to,
-      subject: '注册验证码',
+      subject: '您正在注册《澳门赌场》手机App',
       text: code,
     };
     ctx.session.email = {
