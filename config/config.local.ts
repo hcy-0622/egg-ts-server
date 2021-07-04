@@ -9,6 +9,7 @@ export default () => {
     username: 'root',
     password: '123456',
     database: 'egg-ts',
+    timezone: '+08:00',
   };
   config.redis = {
     client: {
@@ -26,6 +27,11 @@ export default () => {
     user: '945739185@qq.com',
     pass: 'arhuduslnnthbcch',
   };
+  // TODO 短信配置，暂未实现
+  // config.sms = {
+  //   accessKeyId: '',
+  //   secretAccessKey: '',
+  // };
   // 禁用CSRF安全校验
   config.security = {
     csrf: {

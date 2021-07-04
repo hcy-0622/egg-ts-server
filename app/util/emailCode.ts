@@ -6,7 +6,7 @@ export default {
   // 创建发送邮件对象
   createTransporterInstance(ctx) {
     if (transporter) return transporter;
-    const {host, port, user, pass} = ctx.app.config.smtp;
+    const { host, port, user, pass } = ctx.app.config.smtp;
     transporter = nodemailer.createTransport({
       host,
       port,
@@ -32,7 +32,7 @@ export default {
     };
     ctx.session.email = {
       code,
-      expire: Date.now() + 60 * 1000,
+      expire: Date.now() + 300 * 1000,
     };
     return info;
   },

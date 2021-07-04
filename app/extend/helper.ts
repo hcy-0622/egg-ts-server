@@ -1,5 +1,6 @@
 import imageCode from '../util/imageCode';
 import emailCode from '../util/emailCode';
+import encrypto from '../util/encrypto';
 
 module.exports = {
   generateImageCode() {
@@ -13,5 +14,8 @@ module.exports = {
   },
   verifyEmailCode(clientCode) {
     emailCode.verifyEmailCode(this.ctx, clientCode);
+  },
+  encryptText(text) {
+    return encrypto.encryptText(this, text);
   },
 };

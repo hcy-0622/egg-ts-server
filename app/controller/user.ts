@@ -13,8 +13,11 @@ export default class UserController extends Controller {
   public async create() {
     const { ctx } = this;
     try {
+      // 校验数据
       this.validateUserInfo();
-      ctx.success(null);
+      // 将数据保存到数据库
+      const data = await ctx.service.user.createUser(ctx.request.body);
+      ctx.success(data);
     } catch (e) {
       if (e.errors) {
         ctx.body = e.errors;
@@ -32,18 +35,18 @@ export default class UserController extends Controller {
     const registerType = data.registerType;
     switch (registerType) {
       case RegisterTypeEnum.Normal:
-        // 校验数据格式
         ctx.validate(normalUserRule, data);
-        // 校验验证码
         ctx.helper.verifyImageCode(data.captcha);
         break;
       case RegisterTypeEnum.Email:
         ctx.validate(emailUserRule, data);
         ctx.helper.verifyEmailCode(data.captcha);
         break;
+      // TODO 暂未实现手机注册
       case RegisterTypeEnum.Phone:
         ctx.validate(phoneUserRule, data);
-        break;
+        throw new Error('暂未实现手机注册接口');
+      // break;
       default:
         throw new Error('注册类型不存在');
     }
