@@ -3,6 +3,8 @@ import { Controller } from 'egg';
 export default class UtilController extends Controller {
   public async imageCode() {
     const { ctx } = this;
+    // 返回svg类型
+    ctx.response.type = 'image/svg+xml';
     ctx.body = ctx.helper.generateImageCode();
   }
 

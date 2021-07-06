@@ -23,7 +23,9 @@ export default class User extends Service {
     const user = await this.findUser({ username });
     if (user) throw new Error('当前用户已存在');
     const data = await this.ctx.model.User.create({ username, password });
-    return data['dataValues'];
+    const result = data['dataValues'];
+    delete result.password;
+    return result;
   }
 
   // 邮箱注册
@@ -32,7 +34,9 @@ export default class User extends Service {
     const user = await this.findUser({ email });
     if (user) throw new Error('当前用户已存在');
     const data = await this.ctx.model.User.create({ email, password });
-    return data['dataValues'];
+    const result = data['dataValues'];
+    delete result.password;
+    return result;
   }
 
   // 手机注册
@@ -41,6 +45,8 @@ export default class User extends Service {
     const user = await this.findUser({ phone });
     if (user) throw new Error('当前用户已存在');
     const data = await this.ctx.model.User.create({ phone, password });
-    return data['dataValues'];
+    const result = data['dataValues'];
+    delete result.password;
+    return result;
   }
 }

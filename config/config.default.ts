@@ -7,6 +7,15 @@ export default (appInfo: EggAppInfo) => {
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1625197680531_229';
 
+  config.cors = {
+    origin: 'http://127.0.0.1:8080',
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
+    credentials: true,
+  };
+  // config.security = {
+  //   domainWhiteList: ['http://127.0.0.1:8080'],
+  // };
+
   // add your egg config in here
   config.middleware = [];
 

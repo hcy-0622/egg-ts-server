@@ -5,8 +5,8 @@ export default {
   generateImageCode(ctx) {
     const c = svgCaptcha.create({
       size: 4,
-      width: 160,
-      height: 60,
+      width: 120,
+      height: 40,
       fontSize: 50,
       ignoreChars: 'OoLlIi01',
       noise: 4,

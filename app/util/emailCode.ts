@@ -57,14 +57,11 @@ export default {
       serverCode = serverEmail.code;
       serverExpire = serverEmail.expire;
     } catch (e) {
-      ctx.session.email = null;
       throw new Error('请重新获取验证码');
     }
     if (Date.now() > serverExpire) {
-      ctx.session.email = null;
       throw new Error('验证码已经过期');
     } else if (serverCode !== clientCode) {
-      ctx.session.email = null;
       throw new Error('验证码不正确');
     }
     ctx.session.email = null;

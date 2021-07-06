@@ -22,6 +22,11 @@ const plugin: EggPlugin = {
     enable: true,
     package: 'egg-redis',
   },
+  // 跨域插件
+  cors: {
+    enable: true,
+    package: 'egg-cors',
+  },
 };
 
 export default plugin;
