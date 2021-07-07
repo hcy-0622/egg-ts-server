@@ -17,7 +17,10 @@ export default (appInfo: EggAppInfo) => {
   // };
 
   // add your egg config in here
-  config.middleware = [];
+  config.middleware = ['auth'];
+  config.auth = {
+    authUrls: ['/users'],
+  };
 
   // add your special config in here
   const bizConfig = {
