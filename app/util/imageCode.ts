@@ -34,7 +34,7 @@ export default {
     if (Date.now() > serverExpire) {
       ctx.session.captcha = null;
       throw new Error('验证码已经过期');
-    } else if (serverCode !== clientCode) {
+    } else if (serverCode.toUpperCase() !== clientCode.toUpperCase()) {
       ctx.session.captcha = null;
       throw new Error('验证码不正确');
     }

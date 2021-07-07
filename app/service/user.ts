@@ -2,6 +2,23 @@ import { Service } from 'egg';
 
 export default class User extends Service {
 
+  public async getUser({ username, email, phone, password }) {
+    password = this.ctx.helper.encryptText(password);
+    let res;
+    if (email) {
+      res = await this.findUser({ email: password });
+    } else if (phone) {
+      res = await this.findUser({ phone, password });
+    } else if (username) {
+      res = await this.findUser({ username, password });
+    }
+    try {
+      return res.dataValues;
+    } catch (e) {
+      throw new Error('用户名或密码不正确');
+    }
+  }
+
   public async createUser({ username, email, phone, password }) {
     if (username) {
       return await this.createUserByUsername(username, password);

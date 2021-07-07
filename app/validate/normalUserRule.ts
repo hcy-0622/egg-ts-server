@@ -20,7 +20,7 @@ export default {
     format: /^[A-Za-z0-9]{4}$/,
     message: '验证码不符合要求',
   },
-  registerType: {
+  type: {
     type: 'enum',
     values: [ 'normal', 'email', 'phone' ],
   },

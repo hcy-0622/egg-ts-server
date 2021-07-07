@@ -5,6 +5,8 @@ export default (app: Application) => {
 
   router.get('/image_code', controller.util.imageCode);
   router.get('/email_code', controller.util.emailCode);
+  router.get('/is_login', controller.user.isLogin);
 
   router.post('/register', controller.user.create);
+  router.post('/login', controller.user.login);
 };

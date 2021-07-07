@@ -31,6 +31,7 @@
     "egg-sequelize-ts": "^0.2.3-0",
     "egg-session-redis": "^2.1.0",
     "egg-validate": "^2.0.2",
+    "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.2.5",
     "nodemailer": "^6.6.2",
     "sequelize-typescript": "^1.1.0",
