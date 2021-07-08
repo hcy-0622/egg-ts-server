@@ -3,8 +3,6 @@ import normalUserRule from '../validate/normalUserRule';
 import emailUserRule from '../validate/emailUserRule';
 import phoneUserRule from '../validate/phoneUserRule';
 
-const jwt = require('jsonwebtoken');
-
 const enum TypeEnum {
   Normal = 'normal',
   Email = 'email',
@@ -21,11 +19,10 @@ export default class AuthController extends Controller {
       ctx.helper.verifyImageCode(data.captcha);
       const result = await ctx.service.auth.getUser(data);
       // ctx.session.user = result;
-      console.log(result);
       delete result.password;
       // 生成jwt令牌
-      const token = jwt.sign(result, this.config.keys, { expiresIn: '7 days' });
-      result.token = token;
+      // TODO 这里不知道是否需要 signed: false
+      ctx.service.auth.setJwtCookie(result);
       ctx.success(result);
     } catch (e) {
       if (e.errors) {
@@ -33,17 +30,6 @@ export default class AuthController extends Controller {
       } else {
         ctx.error(400, e.message);
       }
-    }
-  }
-
-  public async isLogin() {
-    const { ctx } = this;
-    const token = ctx.get('Authorization');
-    try {
-      const user = jwt.verify(token, this.config.keys);
-      ctx.success(user);
-    } catch (e) {
-      ctx.error(400, e.message);
     }
   }
 

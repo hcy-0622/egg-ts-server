@@ -6,6 +6,7 @@ export default (appInfo: EggAppInfo) => {
   // override config from framework / plugin
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1625197680531_229';
+  config.serverTimeout = 15000;
 
   config.cors = {
     origin: 'http://127.0.0.1:8080',

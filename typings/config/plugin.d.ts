@@ -19,6 +19,8 @@ import 'egg-validate';
 import 'egg-session-redis';
 import 'egg-redis';
 import 'egg-cors';
+import 'egg-passport';
+import 'egg-passport-github';
 import { EggPluginItem } from 'egg';
 declare module 'egg' {
   interface EggPlugin {
@@ -39,5 +41,7 @@ declare module 'egg' {
     sessionRedis?: EggPluginItem;
     redis?: EggPluginItem;
     cors?: EggPluginItem;
+    passport?: EggPluginItem;
+    passportGithub?: EggPluginItem;
   }
 }

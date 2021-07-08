@@ -1,7 +1,9 @@
-import { Model, Table, Column, DataType, CreatedAt, UpdatedAt } from 'sequelize-typescript';
 
+import { Column, DataType, Model, Table, CreatedAt, UpdatedAt, HasMany } from 'sequelize-typescript';
+import { OAuth } from './oauth';
 @Table({ modelName: 'user' })
 export class User extends Model<User> {
+
   @Column({
     type: DataType.INTEGER,
     primaryKey: true,
@@ -18,7 +20,7 @@ export class User extends Model<User> {
     unique: true,
     comment: '用户姓名',
     validate: {
-      is: /^[A-Za-z0-9]{6,}$/,
+      is: /^[A-Za-z0-9\-]{6,}$/,
     },
   })
   username: string;
@@ -53,10 +55,22 @@ export class User extends Model<User> {
   })
   password: string;
 
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+    unique: false,
+    comment: '是否绑定授权账户',
+  })
+  github: number;
+
+  @HasMany(() => OAuth)
+  oauths: OAuth[];
+
   @CreatedAt
   createdAt: Date;
 
   @UpdatedAt
   updatedAt: Date;
 }
+
 export default () => User;

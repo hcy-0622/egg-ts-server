@@ -39,6 +39,10 @@ export default () => {
     },
   };
 
+  config.passportGithub = {
+    key: '9852464a3e64b8b36e88',
+    secret: 'eaada2d0116007346333c6573fb4d00c4ff666b2',
+  };
 
   return config;
 };
