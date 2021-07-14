@@ -1,16 +1,16 @@
 module.exports = {
   success(data, status = 200, msg = 'Is ok!') {
-    // this.status = status;
+    this.status = status;
     this.body = {
-      code: status,
+      code: 0,
       msg,
       data,
     };
   },
   error(status = 500, msg = 'Is fail!') {
-    // this.status = status;
+    this.status = status;
     this.body = {
-      code: status,
+      code: -1,
       msg,
     };
   },

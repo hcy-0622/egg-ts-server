@@ -23,6 +23,7 @@ $ npm start
 
 ### Npm Scripts
 
+- 使用 `npx sequelize migration:generate --name=xxx` 生成迁移文件
 - 使用 `npm run sequelize-cli-ts db:migrate` 生成数据库表
 - Use `npm run lint` to check code style
 - Use `npm test` to run unit test

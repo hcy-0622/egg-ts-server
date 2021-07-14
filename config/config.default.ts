@@ -23,6 +23,12 @@ export default (appInfo: EggAppInfo) => {
     authUrls: ['/users'],
   };
 
+  config.multipart = {
+    mode: 'file',
+    fileSize: '2mb',
+    fileExtensions: ['.xls'],
+  };
+
   // add your special config in here
   const bizConfig = {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,

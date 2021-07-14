@@ -1,9 +1,19 @@
-
-import { Column, DataType, Model, Table, CreatedAt, UpdatedAt, HasMany } from 'sequelize-typescript';
+/**
+ * @desc 用户表
+ */
+import {
+  Column,
+  DataType,
+  Model,
+  Table,
+  CreatedAt,
+  UpdatedAt,
+  HasMany,
+} from 'sequelize-typescript';
 import { OAuth } from './oauth';
+
 @Table({ modelName: 'user' })
 export class User extends Model<User> {
-
   @Column({
     type: DataType.INTEGER,
     primaryKey: true,
@@ -56,12 +66,50 @@ export class User extends Model<User> {
   password: string;
 
   @Column({
-    type: DataType.INTEGER,
+    field: 'user_state',
+    type: DataType.BOOLEAN,
+    allowNull: true,
+    unique: false,
+    comment: '用户是否可用',
+  })
+  userState: boolean;
+
+  @Column({
+    type: DataType.BOOLEAN,
     allowNull: true,
     unique: false,
     comment: '是否绑定授权账户',
   })
-  github: number;
+  github: boolean;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: true,
+    unique: false,
+    defaultValue: true,
+    comment: '是否本地账户',
+  })
+  local: boolean;
+
+  @Column({
+    field: 'avatar_url',
+    type: DataType.STRING,
+    allowNull: true,
+    unique: false,
+    comment: '用户头像',
+    get() {
+      const rawValue = this.getDataValue('avatarURL');
+      return rawValue ? 'http://127.0.0.1:7001' + rawValue : null;
+    },
+  })
+  avatarURL: string;
+
+  // @Column({
+  //   // 虚拟字段
+  //   type: DataType.VIRTUAL,
+  //   get: () => 'http://127.0.0.1:7001',
+  // })
+  // baseURL: string;
 
   @HasMany(() => OAuth)
   oauths: OAuth[];
@@ -72,5 +120,4 @@ export class User extends Model<User> {
   @UpdatedAt
   updatedAt: Date;
 }
-
 export default () => User;

@@ -6,63 +6,63 @@ import phoneUserRule from '../validate/phoneUserRule';
 const enum TypeEnum {
   Normal = 'normal',
   Email = 'email',
-  Phone = 'phone'
+  Phone = 'phone',
 }
 
 export default class AuthController extends Controller {
-
   public async login() {
-    const { ctx } = this;
     try {
       this.validateData();
-      const data = ctx.request.body;
-      ctx.helper.verifyImageCode(data.captcha);
-      const result = await ctx.service.auth.getUser(data);
+      const data = this.ctx.request.body;
+      this.ctx.helper.verifyImageCode(data.captcha);
+      const result = await this.ctx.service.auth.getUser(data);
+      if (!result.userState) {
+        return this.ctx.error(400, '该用户不存在');
+      }
       // ctx.session.user = result;
       delete result.password;
       // 生成jwt令牌
       // TODO 这里不知道是否需要 signed: false
-      ctx.service.auth.setJwtCookie(result);
-      ctx.success(result);
+      this.ctx.service.auth.setJwtCookie(result);
+      this.ctx.success(result);
     } catch (e) {
       if (e.errors) {
-        ctx.error(400, e.errors);
+        this.ctx.error(400, e.errors);
       } else {
-        ctx.error(400, e.message);
+        this.ctx.error(400, e.message);
       }
     }
   }
 
   public async create() {
-    const { ctx } = this;
+    const data = this.ctx.request.body;
     try {
       // 校验数据
       this.validateData();
       this.validateCode();
       // 将数据保存到数据库
-      const data = await ctx.service.auth.createUser(ctx.request.body);
-      ctx.success(data);
+      const result = await this.ctx.service.auth.createUser(data);
+      this.ctx.success(result);
     } catch (e) {
       if (e.errors) {
-        ctx.body = e.errors;
-        ctx.error(400, e.errors);
+        this.ctx.body = e.errors;
+        this.ctx.error(400, e.errors);
       } else {
-        ctx.body = e.message;
-        ctx.error(400, e.message);
+        this.ctx.body = e.message;
+        this.ctx.error(400, e.message);
       }
     }
   }
 
   private validateCode() {
-    const { ctx } = this;
-    const data = ctx.request.body;
+    const data = this.ctx.request.body;
     const type = data.type;
     switch (type) {
       case TypeEnum.Normal:
-        ctx.helper.verifyImageCode(data.captcha);
+        this.ctx.helper.verifyImageCode(data.captcha);
         break;
       case TypeEnum.Email:
-        ctx.helper.verifyEmailCode(data.captcha);
+        this.ctx.helper.verifyEmailCode(data.captcha);
         break;
       // TODO 暂未实现手机注册
       case TypeEnum.Phone:
@@ -74,19 +74,18 @@ export default class AuthController extends Controller {
   }
 
   private validateData() {
-    const { ctx } = this;
-    const data = ctx.request.body;
+    const data = this.ctx.request.body;
     const type = data.type;
     switch (type) {
       case TypeEnum.Normal:
-        ctx.validate(normalUserRule, data);
+        this.ctx.validate(normalUserRule, data);
         break;
       case TypeEnum.Email:
-        ctx.validate(emailUserRule, data);
+        this.ctx.validate(emailUserRule, data);
         break;
       // TODO 暂未实现手机注册
       case TypeEnum.Phone:
-        ctx.validate(phoneUserRule, data);
+        this.ctx.validate(phoneUserRule, data);
         throw new Error('暂未实现手机注册接口');
       // break;
       default:

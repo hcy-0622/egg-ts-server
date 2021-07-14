@@ -2,13 +2,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 module.exports = app => {
   app.passport.verify(async (ctx, user) => {
-    console.log('这个User啥玩意: ', user);
     try {
       const existsUser = await ctx.service.oauth.getOAuthUser(user);
       ctx.service.auth.setJwtCookie(existsUser);
       return existsUser;
     } catch (e) {
-      console.log('报错什么玩意: ', e.message);
       const userInfo = {
         username: uuidv4(),
         password: 'abc.123456',

@@ -5,9 +5,8 @@ const jwt = require('jsonwebtoken');
 export default class AuthService extends Service {
 
   public setJwtCookie(userInfo) {
-    const { ctx } = this;
     const token = jwt.sign(userInfo, this.config.keys, { expiresIn: '7 days' });
-    ctx.cookies.set('token', token, {
+    this.ctx.cookies.set('token', token, {
       path: '/',
       httpOnly: false,
       maxAge: 24 * 60 * 60 * 1000,

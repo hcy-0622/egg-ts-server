@@ -4,8 +4,7 @@ import { User } from '../model/user';
 export default class OAuthService extends Service {
 
   public async getOAuthUser({ id, provider }) {
-    const { ctx } = this;
-    const data = await ctx.model.Oauth.findOne({
+    const data = await this.ctx.model.Oauth.findOne({
       where: { uid: id, provider },
       include: [{ model: User }],
     });
@@ -17,7 +16,6 @@ export default class OAuthService extends Service {
   }
 
   public async createOAuth(obj) {
-    const { ctx } = this;
-    return await ctx.model.Oauth.create(obj);
+    return await this.ctx.model.Oauth.create(obj);
   }
 }

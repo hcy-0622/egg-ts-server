@@ -2,20 +2,18 @@ import { Controller } from 'egg';
 
 export default class UtilController extends Controller {
   public async imageCode() {
-    const { ctx } = this;
     // 返回svg类型
-    ctx.response.type = 'image/svg+xml';
-    ctx.body = ctx.helper.generateImageCode();
+    this.ctx.response.type = 'image/svg+xml';
+    this.ctx.body = this.ctx.helper.generateImageCode();
   }
 
   public async emailCode() {
-    const { ctx } = this;
     try {
-      const { email } = ctx.query;
-      const data = await ctx.helper.sendEmailCode(email);
-      ctx.success(data);
+      const { email } = this.ctx.query;
+      const data = await this.ctx.helper.sendEmailCode(email);
+      this.ctx.success(data);
     } catch (e) {
-      ctx.error(400, e.message);
+      this.ctx.error(400, e.message);
     }
   }
 }
