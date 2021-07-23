@@ -1,4 +1,5 @@
 import { Service } from 'egg';
+import { Role } from '../model/role';
 
 const { Op } = require('sequelize');
 
@@ -22,20 +23,15 @@ export default class UserService extends Service {
     };
     if (key || role || origin || type) {
       const conditionList: any[] = [];
-      if (key) {
-        conditionList.push(defaultCondition);
-      }
+      if (key) conditionList.push(defaultCondition);
       if (role) {
         //
       }
-      if (origin) {
-        conditionList.push({ [origin]: true });
-      }
-      if (type) {
-        conditionList.push({ [type]: { [Op.substring]: key } });
-      }
+      if (origin) conditionList.push({ [origin]: true });
+      if (type) conditionList.push({ [type]: { [Op.substring]: key } });
       const users = await this.ctx.model.User.findAll({
         attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+        include: [{ model: Role }],
         limit: pageSize,
         offset: (currentPage - 1) * pageSize,
         where: {
@@ -51,6 +47,7 @@ export default class UserService extends Service {
     }
     const users = await this.ctx.model.User.findAll({
       attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+      include: [{ model: Role }],
       limit: pageSize,
       offset: (currentPage - 1) * pageSize,
     });

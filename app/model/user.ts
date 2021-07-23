@@ -9,8 +9,11 @@ import {
   CreatedAt,
   UpdatedAt,
   HasMany,
+  BelongsToMany,
 } from 'sequelize-typescript';
 import { OAuth } from './oauth';
+import { Role } from './role';
+import { UserRole } from './userRole';
 
 @Table({ modelName: 'user' })
 export class User extends Model<User> {
@@ -113,6 +116,9 @@ export class User extends Model<User> {
 
   @HasMany(() => OAuth)
   oauths: OAuth[];
+
+  @BelongsToMany(() => Role, () => UserRole)
+  roles: Role[];
 
   @CreatedAt
   createdAt: Date;
