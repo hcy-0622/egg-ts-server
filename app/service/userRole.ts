@@ -9,4 +9,15 @@ export default class UserRoleService extends Service {
       throw new Error('分配角色失败');
     }
   }
+
+  public async destroyUserRole(userId, roleId) {
+    try {
+      const data = await this.ctx.model.UserRole.destroy({
+        where: { userId, roleId },
+      });
+      if (data <= 0) throw new Error('移除角色失败');
+    } catch (e) {
+      throw new Error('移除角色失败');
+    }
+  }
 }
