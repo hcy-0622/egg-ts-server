@@ -1,5 +1,6 @@
 export default (state: 0 | 1) => ({
   username: {
+    required: false,
     type: 'string',
     trim: true,
     // 只能是数字或字母

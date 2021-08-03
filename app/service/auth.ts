@@ -3,18 +3,11 @@ import { Service } from 'egg';
 const jwt = require('jsonwebtoken');
 
 export default class AuthService extends Service {
-
-  public setJwtCookie(userInfo) {
-    const token = jwt.sign(userInfo, this.config.keys, { expiresIn: '7 days' });
-    this.ctx.cookies.set('token', token, {
-      path: '/',
-      httpOnly: false,
-      maxAge: 24 * 60 * 60 * 1000,
-      signed: false,
-    });
+  private async findUser(options) {
+    return await this.ctx.model.User.findOne({ where: options });
   }
 
-  public async getUser({ username, email, phone, password }) {
+  public async getUserInLogging({ username, email, phone, password }) {
     password = this.ctx.helper.encryptText(password);
     let res;
     if (email) {
@@ -29,6 +22,16 @@ export default class AuthService extends Service {
     } catch (e) {
       throw new Error('用户名或密码不正确');
     }
+  }
+
+  public setJwtCookie(userInfo) {
+    const token = jwt.sign(userInfo, this.config.keys, { expiresIn: '7 days' });
+    this.ctx.cookies.set('token', token, {
+      path: '/',
+      httpOnly: false,
+      maxAge: 24 * 60 * 60 * 1000,
+      signed: false,
+    });
   }
 
   public async createUser(obj) {
@@ -71,9 +74,5 @@ export default class AuthService extends Service {
     const result = data['dataValues'];
     delete result.password;
     return result;
-  }
-
-  private async findUser(options) {
-    return await this.ctx.model.User.findOne({ where: options });
   }
 }

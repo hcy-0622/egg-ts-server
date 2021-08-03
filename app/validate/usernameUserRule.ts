@@ -2,15 +2,13 @@ export default {
   username: {
     type: 'string',
     trim: true,
-    // 只能是数字或字母
-    format: /^[A-Za-z0-9]{6,}$/,
+    format: /^[a-zA-Z0-9_-]{4,16}$/,
     message: '用户名不符合要求',
   },
   password: {
     type: 'string',
     trim: true,
-    // 必须是数字字母符号组合
-    format: /^(?:(?=.*[0-9].*)(?=.*[A-Za-z].*)(?=.*[,\.#%'\+\*\-:;^_`].*))[,\.#%'\+\*\-:;^_`0-9A-Za-z]{8,}$/,
+    format: /^[a-zA-Z0-9_]{4,16}$/,
     message: '密码不符合要求',
   },
   captcha: {
@@ -22,6 +20,6 @@ export default {
   },
   type: {
     type: 'enum',
-    values: [ 'normal', 'email', 'phone' ],
+    values: ['username', 'email', 'phone'],
   },
 };

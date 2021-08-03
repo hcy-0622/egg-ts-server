@@ -1,10 +1,10 @@
 import { Controller } from 'egg';
-import normalUserRule from '../validate/normalUserRule';
+import usernameUserRule from '../validate/usernameUserRule';
 import emailUserRule from '../validate/emailUserRule';
 import phoneUserRule from '../validate/phoneUserRule';
 
 const enum TypeEnum {
-  Normal = 'normal',
+  Username = 'username',
   Email = 'email',
   Phone = 'phone',
 }
@@ -15,7 +15,7 @@ export default class AuthController extends Controller {
       this.validateData();
       const data = this.ctx.request.body;
       this.ctx.helper.verifyImageCode(data.captcha);
-      const result = await this.ctx.service.auth.getUser(data);
+      const result = await this.ctx.service.auth.getUserInLogging(data);
       if (!result.userState) {
         return this.ctx.error(400, '该用户不存在');
       }
@@ -58,7 +58,7 @@ export default class AuthController extends Controller {
     const data = this.ctx.request.body;
     const type = data.type;
     switch (type) {
-      case TypeEnum.Normal:
+      case TypeEnum.Username:
         this.ctx.helper.verifyImageCode(data.captcha);
         break;
       case TypeEnum.Email:
@@ -77,8 +77,8 @@ export default class AuthController extends Controller {
     const data = this.ctx.request.body;
     const type = data.type;
     switch (type) {
-      case TypeEnum.Normal:
-        this.ctx.validate(normalUserRule, data);
+      case TypeEnum.Username:
+        this.ctx.validate(usernameUserRule, data);
         break;
       case TypeEnum.Email:
         this.ctx.validate(emailUserRule, data);

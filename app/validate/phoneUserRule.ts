@@ -21,6 +21,6 @@ export default {
   },
   type: {
     type: 'enum',
-    values: [ 'normal', 'email', 'phone' ],
+    values: [ 'username', 'email', 'phone' ],
   },
 };

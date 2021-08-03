@@ -11,29 +11,30 @@ export default class UserService extends Service {
   }
 
   public async getList(obj) {
-    let { role, origin, type, key, currentPage, pageSize } = obj;
-    currentPage = parseInt(currentPage) || 1;
+    let { role, origin, type, keyword, page, pageSize } = obj;
+    page = parseInt(page) || 1;
     pageSize = parseInt(pageSize) || 5;
+    keyword = keyword || '';
     const defaultCondition = {
       [Op.or]: [
-        { username: { [Op.substring]: key } },
-        { email: { [Op.substring]: key } },
-        { phone: { [Op.substring]: key } },
+        { username: { [Op.substring]: keyword } },
+        { email: { [Op.substring]: keyword } },
+        { phone: { [Op.substring]: keyword } },
       ],
     };
-    if (key || role || origin || type) {
+    if (keyword || role || origin || type) {
       const conditionList: any[] = [];
-      if (key) conditionList.push(defaultCondition);
+      if (keyword) conditionList.push(defaultCondition);
       if (role) {
         //
       }
       if (origin) conditionList.push({ [origin]: true });
-      if (type) conditionList.push({ [type]: { [Op.substring]: key } });
+      if (type) conditionList.push({ [type]: { [Op.substring]: keyword } });
       const users = await this.ctx.model.User.findAll({
         attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
         include: [{ model: Role }],
         limit: pageSize,
-        offset: (currentPage - 1) * pageSize,
+        offset: (page - 1) * pageSize,
         where: {
           [Op.and]: conditionList,
         },
@@ -49,7 +50,7 @@ export default class UserService extends Service {
       attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
       include: [{ model: Role }],
       limit: pageSize,
-      offset: (currentPage - 1) * pageSize,
+      offset: (page - 1) * pageSize,
     });
     const result = await this.ctx.model.User.findAndCountAll();
     return { list: users, total: result.count };

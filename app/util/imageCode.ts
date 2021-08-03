@@ -6,7 +6,7 @@ export default {
     const c = svgCaptcha.create({
       size: 4,
       width: 120,
-      height: 40,
+      height: 36,
       fontSize: 50,
       ignoreChars: 'OoLlIi01',
       noise: 4,
