@@ -1,33 +1,23 @@
+import baseUserRule from './baseUserRule';
+import emailUserRule from './emailUserRule';
+import phoneUserRule from './phoneUserRule';
+import usernameUserRule from './usernameUserRule';
+
 export default (state: 0 | 1) => ({
   username: {
+    ...usernameUserRule.username,
     required: false,
-    type: 'string',
-    trim: true,
-    // 只能是数字或字母
-    format: /^[A-Za-z0-9]{6,}$/,
-    message: '用户名不符合要求',
-  },
-  password: {
-    required: state !== 0,
-    type: 'string',
-    trim: true,
-    // 必须是数字字母符号组合
-    format:
-      /^(?:(?=.*[0-9].*)(?=.*[A-Za-z].*)(?=.*[,\.#%'\+\*\-:;^_`].*))[,\.#%'\+\*\-:;^_`0-9A-Za-z]{8,}$/,
-    message: '密码不符合要求',
   },
   email: {
+    ...emailUserRule.email,
     required: false,
-    type: 'string',
-    trim: true,
-    format: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
-    message: '邮箱验不符合要求',
   },
   phone: {
+    ...phoneUserRule.phone,
     required: false,
-    type: 'string',
-    trim: true,
-    format: /^1[3456789]\d{9}$/,
-    message: '手机不符合要求',
+  },
+  password: {
+    ...baseUserRule.password,
+    required: state !== 0,
   },
 });

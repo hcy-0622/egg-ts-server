@@ -11,6 +11,7 @@ import {
   HasMany,
   BelongsToMany,
 } from 'sequelize-typescript';
+import { PHONE_REGEX, USERNAME_REGEX } from '../validate/regex';
 import { OAuth } from './oauth';
 import { Role } from './role';
 import { UserRole } from './userRole';
@@ -31,9 +32,9 @@ export class User extends Model<User> {
     type: DataType.STRING(255),
     allowNull: true,
     unique: true,
-    comment: '用户姓名',
+    comment: '用户名',
     validate: {
-      is: /^[A-Za-z0-9\-]{6,}$/,
+      is: USERNAME_REGEX,
     },
   })
   username: string;
@@ -53,9 +54,9 @@ export class User extends Model<User> {
     type: DataType.STRING(255),
     allowNull: true,
     unique: true,
-    comment: '用户手机',
+    comment: '手机号',
     validate: {
-      is: /^1[3456789]\d{9}$/,
+      is: PHONE_REGEX,
     },
   })
   phone: string;
