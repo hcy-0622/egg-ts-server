@@ -31,8 +31,7 @@ export class Role extends Model<Role> {
   @Column({
     type: DataType.STRING(255),
     field: 'role_desc',
-    allowNull: false,
-    unique: true,
+    allowNull: true,
     comment: '角色描述',
   })
   roleDesc: string;

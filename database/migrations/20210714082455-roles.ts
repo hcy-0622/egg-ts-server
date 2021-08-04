@@ -15,8 +15,7 @@ module.exports = {
       },
       role_desc: {
         type: STRING(255),
-        allowNull: false,
-        unique: true,
+        allowNull: true,
       },
       role_state: {
         type: BOOLEAN,

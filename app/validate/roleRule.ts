@@ -2,11 +2,11 @@ export default {
   roleName: {
     type: 'string',
     trim: true,
-    min: 1,
+    min: 2,
   },
   roleDesc: {
+    required: false,
     type: 'string',
     trim: true,
-    min: 1,
   },
 };
