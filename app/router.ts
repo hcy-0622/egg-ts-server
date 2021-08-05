@@ -8,6 +8,6 @@ export default (app: Application) => {
   require('./routes/user')(app);
   require('./routes/role')(app);
 
-  router.post('/api/v1/user_role', controller.userRole.create);
-  router.post('/api/v1/user_role/:userId', controller.userRole.destroy);
+  router.post('/v1/user_role', controller.userRole.create);
+  router.post('/v1/user_role/:userId', controller.userRole.destroy);
 };

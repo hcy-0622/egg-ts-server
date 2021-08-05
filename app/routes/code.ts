@@ -1,6 +1,6 @@
 import { Application } from 'egg';
 
 module.exports = ({ router, controller }: Application) => {
-  router.get('/image_code', controller.util.imageCode);
-  router.get('/email_code', controller.util.emailCode);
+  router.get('/v1/image_code', controller.util.imageCode);
+  router.get('/v1/email_code', controller.util.emailCode);
 };
