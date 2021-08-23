@@ -1,4 +1,5 @@
 import { Service } from 'egg';
+import { Rights } from '../model/rights';
 
 const { Op } = require('sequelize');
 
@@ -15,7 +16,7 @@ export default class Role extends Service {
     if (keyword) {
       const roles = await this.ctx.model.Role.findAll({
         attributes: {
-          exclude: ['password', 'created_at', 'updated_at'],
+          exclude: ['created_at', 'updated_at'],
         },
         limit: pageSize,
         offset: (page - 1) * pageSize,
@@ -25,6 +26,7 @@ export default class Role extends Service {
             { roleDesc: { [Op.substring]: keyword } },
           ],
         },
+        include: [{ model: Rights }],
       });
       const res = await this.ctx.model.Role.findAndCountAll({
         where: {
@@ -37,8 +39,12 @@ export default class Role extends Service {
       return { list: roles, total: res.count };
     }
     const roles = await this.ctx.model.Role.findAll({
+      attributes: {
+        exclude: ['created_at', 'updated_at'],
+      },
       limit: pageSize,
       offset: (page - 1) * pageSize,
+      include: [{ model: Rights }],
     });
     const res = await this.ctx.model.Role.findAndCountAll();
     return { list: roles, total: res.count };

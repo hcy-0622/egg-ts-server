@@ -5,7 +5,12 @@ import {
   Table,
   CreatedAt,
   UpdatedAt,
+  BelongsToMany,
 } from 'sequelize-typescript';
+import { User } from './user';
+import { UserRole } from './userRole';
+import { Rights } from './rights';
+import { RoleRights } from './roleRights';
 
 @Table
 export class Role extends Model<Role> {
@@ -44,6 +49,12 @@ export class Role extends Model<Role> {
     comment: '角色是否可用',
   })
   roleState: boolean;
+
+  @BelongsToMany(() => User, () => UserRole)
+  users: User[];
+
+  @BelongsToMany(() => Rights, () => RoleRights)
+  rights: Rights[];
 
   @CreatedAt
   createdAt: Date;

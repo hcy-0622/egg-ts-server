@@ -6,11 +6,24 @@ export default class RoleController extends Controller {
     const { ctx } = this;
     try {
       if (ctx.query && Object.keys(ctx.query).length) {
-        const roles = await ctx.service.role.getRolesList(ctx.query);
-        ctx.success(roles);
+        const result = await ctx.service.role.getRolesList(ctx.query);
+        result.list.forEach((r: any) => {
+          r.dataValues.rightsTree = r.dataValues.rights.filter(outItem => {
+            r.dataValues.rights.forEach(inItem => {
+              if (outItem.dataValues.id === inItem.dataValues.pid) {
+                outItem.dataValues.children
+                  ? null
+                  : (outItem.dataValues.children = []);
+                outItem.dataValues.children.push(inItem);
+              }
+            });
+            return outItem.dataValues.level === 0;
+          });
+        });
+        ctx.success(result);
       } else {
-        const roles = await ctx.service.role.getAllRoles();
-        ctx.success(roles);
+        const result = await ctx.service.role.getAllRoles();
+        ctx.success(result);
       }
     } catch (e) {
       ctx.error(500, e.message);
