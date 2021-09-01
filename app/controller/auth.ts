@@ -24,6 +24,7 @@ export default class AuthController extends Controller {
       // 生成jwt令牌
       // TODO 这里不知道是否需要 signed: false
       this.ctx.service.auth.setJwtCookie(result);
+      this.ctx.session.user = result;
       this.ctx.success(result);
     } catch (e) {
       if (e.errors) {

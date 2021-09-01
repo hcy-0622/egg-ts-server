@@ -1,10 +1,39 @@
 import { Service } from 'egg';
+import { Rights } from '../model/rights';
+import { Role } from '../model/role';
 
 const jwt = require('jsonwebtoken');
-
 export default class AuthService extends Service {
   private async findUser(options) {
-    return await this.ctx.model.User.findOne({ where: options });
+    const user: any = await this.ctx.model.User.findOne({
+      where: options,
+      include: [{ model: Role, include: [{ model: Rights }] }],
+    });
+    let allRights: any[] = [];
+    user?.roles.forEach(role => {
+      role.rights.forEach(item => {
+        allRights.push(item);
+      });
+    });
+    const temp = {};
+    allRights = allRights.reduce((arr, item) => {
+      if (!temp[item.dataValues.id]) {
+        arr.push(item);
+        temp[item.dataValues.id] = true;
+      }
+      return arr;
+    }, []);
+    allRights = allRights.filter(outItem => {
+      allRights.forEach(inItem => {
+        if (outItem.dataValues.id === inItem.dataValues.pid) {
+          outItem.dataValues.children ? '' : (outItem.dataValues.children = []);
+          outItem.dataValues.children.push(inItem);
+        }
+      });
+      return outItem.dataValues.level === 0;
+    });
+    user.dataValues.rightTree = allRights;
+    return user;
   }
 
   public async getUserInLogging({ username, email, phone, password }) {
@@ -18,14 +47,19 @@ export default class AuthService extends Service {
       res = await this.findUser({ username, password });
     }
     try {
-      return res.dataValues;
+      return res;
     } catch (e) {
       throw new Error('用户名或密码不正确');
     }
   }
 
   public setJwtCookie(userInfo) {
-    const token = jwt.sign(userInfo, this.config.keys, { expiresIn: '7 days' });
+    const data = {
+      username: userInfo.username,
+      email: userInfo.email,
+      phone: userInfo.phone,
+    };
+    const token = jwt.sign(data, this.config.keys, { expiresIn: '7 days' });
     this.ctx.cookies.set('token', token, {
       path: '/',
       httpOnly: false,
